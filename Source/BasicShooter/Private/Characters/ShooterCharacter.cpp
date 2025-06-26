@@ -4,10 +4,15 @@
 #include "Characters/ShooterCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AShooterCharacter::AShooterCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationYaw = true;
+	bUseControllerRotationRoll = false;
 
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComponent"));
 	SpringArmComponent->SetupAttachment(GetRootComponent());
@@ -36,7 +41,8 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AShooterCharacter::MoveRight);
 	PlayerInputComponent->BindAxis(TEXT("LookRight"), this, &AShooterCharacter::LookRight);
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
-
+	PlayerInputComponent->BindAction(TEXT("Run"), EInputEvent::IE_Pressed, this, &AShooterCharacter::Run);
+	PlayerInputComponent->BindAction(TEXT("Run"), EInputEvent::IE_Released, this, &AShooterCharacter::Walk);
 }
 
 void AShooterCharacter::BeginPlay()
@@ -63,5 +69,15 @@ void AShooterCharacter::MoveRight(float AxisValue)
 void AShooterCharacter::LookRight(float AxisValue)
 {
 	AddControllerYawInput(AxisValue * RotationRate * GetWorld()->GetDeltaSeconds());
+}
+
+void AShooterCharacter::Walk()
+{
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+}
+
+void AShooterCharacter::Run()
+{
+	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
 }
 
