@@ -33,8 +33,16 @@ private:
 	void LookUp(float AxisValue);
 	void MoveRight(float AxisValue);
 	void LookRight(float AxisValue);
+	void Walk();
+	void Run();
 
 	UPROPERTY(EditAnywhere)
 	float RotationRate = 70.f;
+
+	UPROPERTY(EditAnywhere)
+	float WalkSpeed = 150.f;
+
+	UPROPERTY(EditAnywhere)
+	float RunSpeed = 350.f;
 
 };
