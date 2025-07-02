@@ -5,6 +5,8 @@
 #include "Components/SceneComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/DamageEvents.h"
+
 #include "DrawDebugHelpers.h"
 
 AWeapon::AWeapon()
@@ -51,10 +53,21 @@ void AWeapon::PullTrigger()
 	FVector End = Location + Rotation.Vector() * MaxRange;
 	FHitResult Hit;
 	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1);
-	if (bSuccess && ImpactEffect)
+	if (bSuccess)
 	{
 		FVector ShotDirection = -Rotation.Vector();
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactEffect, Hit.Location, ShotDirection.Rotation());
+
+		if (ImpactEffect)
+		{
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactEffect, Hit.Location, ShotDirection.Rotation());
+		}
+		
+		AActor* HitActor = Hit.GetActor();
+		if (HitActor)
+		{
+			FPointDamageEvent DamageEvent(DamageAmount, Hit, ShotDirection, nullptr);
+			HitActor->TakeDamage(DamageAmount, DamageEvent, OwnerController, this);
+		}
 	}
 }
 
