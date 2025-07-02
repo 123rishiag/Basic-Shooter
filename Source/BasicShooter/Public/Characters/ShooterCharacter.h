@@ -38,6 +38,7 @@ private:
 	void LookRight(float AxisValue);
 	void Walk();
 	void Run();
+	void Shoot();
 #pragma endregion
 
 	UPROPERTY(EditAnywhere)

@@ -44,6 +44,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction(TEXT("Run"), EInputEvent::IE_Pressed, this, &AShooterCharacter::Run);
 	PlayerInputComponent->BindAction(TEXT("Run"), EInputEvent::IE_Released, this, &AShooterCharacter::Walk);
+	PlayerInputComponent->BindAction(TEXT("Shoot"), EInputEvent::IE_Pressed, this, &AShooterCharacter::Shoot);
 }
 
 void AShooterCharacter::BeginPlay()
@@ -88,5 +89,13 @@ void AShooterCharacter::Walk()
 void AShooterCharacter::Run()
 {
 	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+}
+
+void AShooterCharacter::Shoot()
+{
+	if (Weapon)
+	{
+		Weapon->PullTrigger();
+	}
 }
 

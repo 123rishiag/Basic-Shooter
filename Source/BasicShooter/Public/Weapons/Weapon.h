@@ -8,6 +8,7 @@
 
 class USceneComponent;
 class USkeletalMeshComponent;
+class UParticleSystem;
 
 UCLASS()
 class BASICSHOOTER_API AWeapon : public AActor
@@ -18,6 +19,8 @@ public:
 	AWeapon();
 	virtual void Tick(float DeltaTime) override;
 
+	void PullTrigger();
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -26,7 +29,10 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	USceneComponent* Root;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* Mesh;
+
+	UPROPERTY(EditDefaultsOnly)
+	UParticleSystem* MuzzleFlash;
 
 };
