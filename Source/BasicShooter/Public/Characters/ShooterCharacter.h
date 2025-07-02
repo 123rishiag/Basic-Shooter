@@ -8,6 +8,7 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+class AWeapon;
 
 UCLASS()
 class BASICSHOOTER_API AShooterCharacter : public ACharacter
@@ -29,12 +30,15 @@ protected:
 	UCameraComponent* CameraComponent;
 
 private:
+
+#pragma region InputFunctions
 	void MoveForward(float AxisValue);
 	void LookUp(float AxisValue);
 	void MoveRight(float AxisValue);
 	void LookRight(float AxisValue);
 	void Walk();
 	void Run();
+#pragma endregion
 
 	UPROPERTY(EditAnywhere)
 	float RotationRate = 70.f;
@@ -44,5 +48,11 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float RunSpeed = 350.f;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AWeapon> WeaponClass;
+
+	UPROPERTY()
+	AWeapon* Weapon;
 
 };
