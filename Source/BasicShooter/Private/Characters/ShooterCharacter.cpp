@@ -10,7 +10,6 @@
 AShooterCharacter::AShooterCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = true;
 	bUseControllerRotationRoll = false;
@@ -67,6 +66,14 @@ void AShooterCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	Health = MaxHealth;
+	if (IsPlayerControlled())
+	{
+		Walk();
+	}
+	else
+	{
+		Run();
+	}
 
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 	if (WeaponClass)
