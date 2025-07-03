@@ -6,6 +6,8 @@
 #include "AIController.h"
 #include "ShooterAIController.generated.h"
 
+class UBehaviorTree;
+
 /**
  * 
  */
@@ -22,5 +24,5 @@ protected:
 
 private:
 	UPROPERTY(EditAnywhere)
-	float AcceptanceRadius = 200.f;
+	UBehaviorTree* AIBehavior;
 };
