@@ -51,8 +51,14 @@ void AWeapon::PullTrigger()
 	OwnerController->GetPlayerViewPoint(Location, Rotation);
 
 	FVector End = Location + Rotation.Vector() * MaxRange;
+
 	FHitResult Hit;
-	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1);
+
+	FCollisionQueryParams IgnoreParams;
+	IgnoreParams.AddIgnoredActor(this);
+	IgnoreParams.AddIgnoredActor(GetOwner());
+	bool bSuccess = GetWorld()->LineTraceSingleByChannel(Hit, Location, End, ECollisionChannel::ECC_GameTraceChannel1, 
+		IgnoreParams);
 	if (bSuccess)
 	{
 		FVector ShotDirection = -Rotation.Vector();
