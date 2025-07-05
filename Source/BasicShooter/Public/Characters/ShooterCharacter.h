@@ -26,6 +26,8 @@ public:
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const;
 
+	void Shoot();
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -42,19 +44,13 @@ private:
 	void LookUp(float AxisValue);
 	void MoveRight(float AxisValue);
 	void LookRight(float AxisValue);
-	void Walk();
-	void Run();
-	void Shoot();
 #pragma endregion
 
 	UPROPERTY(EditAnywhere)
 	float RotationRate = 70.f;
 
 	UPROPERTY(EditAnywhere)
-	float WalkSpeed = 150.f;
-
-	UPROPERTY(EditAnywhere)
-	float RunSpeed = 350.f;
+	float WalkSpeed = 350.f;
 
 	UPROPERTY(EditDefaultsOnly)
 	float MaxHealth = 100.f;
