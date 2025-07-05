@@ -41,8 +41,6 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AShooterCharacter::MoveRight);
 	PlayerInputComponent->BindAxis(TEXT("LookRight"), this, &AShooterCharacter::LookRight);
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction(TEXT("Run"), EInputEvent::IE_Pressed, this, &AShooterCharacter::Run);
-	PlayerInputComponent->BindAction(TEXT("Run"), EInputEvent::IE_Released, this, &AShooterCharacter::Walk);
 	PlayerInputComponent->BindAction(TEXT("Shoot"), EInputEvent::IE_Pressed, this, &AShooterCharacter::Shoot);
 }
 
@@ -66,14 +64,7 @@ void AShooterCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	Health = MaxHealth;
-	if (IsPlayerControlled())
-	{
-		Walk();
-	}
-	else
-	{
-		Run();
-	}
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 	if (WeaponClass)
@@ -103,16 +94,6 @@ void AShooterCharacter::MoveRight(float AxisValue)
 void AShooterCharacter::LookRight(float AxisValue)
 {
 	AddControllerYawInput(AxisValue * RotationRate * GetWorld()->GetDeltaSeconds());
-}
-
-void AShooterCharacter::Walk()
-{
-	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
-}
-
-void AShooterCharacter::Run()
-{
-	GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
 }
 
 void AShooterCharacter::Shoot()
